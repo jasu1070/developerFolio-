@@ -17,7 +17,7 @@ const greeting = {
 
 const socialMediaLinks = {
 
-  github: "https://github.com/jsu1070",
+  github: "https://github.com/jasu1070",
   linkedin: "https://www.linkedin.com/in/jashvant/",
   gmail: "jasu1070@gmail.com",
   gitlab: "https://gitlab.com/jasu1070",
