@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect, lazy, Suspense, useCallback } from "react";
 import ApolloClient from "apollo-boost";
 import { gql } from "apollo-boost";
 import "./Project.css";
@@ -13,11 +13,7 @@ export default function Projects() {
   const renderLoader = () => <Loading />;
   const [repo, setrepo] = useState([]);
 
-  useEffect(() => {
-    getRepoData();
-  }, []);
-
-  function getRepoData() {
+  const getRepoData = useCallback(() => {
     const client = new ApolloClient({
       uri: "https://api.github.com/graphql",
       request: (operation) => {
@@ -69,7 +65,11 @@ export default function Projects() {
         setrepoFunction("Error");
         console.log("Because of this Error, nothing is shown in place of Projects section. Projects section not configured");
       });
-  }
+  }, [openSource]);
+
+  useEffect(() => {
+    getRepoData();
+  }, [getRepoData]);
 
   function setrepoFunction(array) {
     setrepo(array);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,lazy, Suspense } from "react";
+import React, { useState, useEffect ,lazy, Suspense, useCallback } from "react";
 import ApolloClient, { gql } from "apollo-boost";
 import { openSource } from "../../portfolio";
 import Contact from "../contact/Contact";
@@ -11,7 +11,7 @@ export default function Profile() {
   function setProfileFunction(array) {
     setrepo(array);
   }
-  function getProfileData() {
+  const getProfileData = useCallback(() => {
     const client = new ApolloClient({
       uri: "https://api.github.com/graphql",
       request: (operation) => {
@@ -46,12 +46,13 @@ export default function Profile() {
           console.log("Because of this Error Contact Section is Showed instead of Profile");
           openSource.showGithubProfile = "false";
       });
-  }
+  }, [openSource]);
+
   useEffect(() => {
     if (openSource.showGithubProfile === "true") {
       getProfileData();
     }
-  }, []);
+  }, [openSource.showGithubProfile, getProfileData]);
 if (openSource.showGithubProfile === "true" && !(typeof prof === 'string' || prof instanceof String)){  
     return (
       <Suspense fallback={renderLoader()}>
